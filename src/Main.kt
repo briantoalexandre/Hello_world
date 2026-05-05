@@ -11,11 +11,15 @@ import java.io.InputStream
 
 
 fun main() {
+    val header = readFile("src/templates/pages/header.html")
+    val footer = readFile("src/templates/pages/footer.html")
+    val whole = mapOf("header" to header, "footer" to footer)
+
     val server = HttpServer.create(InetSocketAddress(8080), 0)
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
     server.createContext("/bootstrap.js", MyHandler("src/templates/js/bootstrap.js"))
     server.createContext("/bootstrap.b.js", MyHandler("src/templates/js/bootstrap.bundle.js"))
-    server.createContext("/", MyHandler("src/templates/pages/accueil.html"))
+    server.createContext("/", MyHandler("src/templates/pages/accueil.html", whole))
 
     //server.executor = null // creates a default executor
     server.start()
@@ -26,27 +30,26 @@ fun readFile(page: String): String {
     return inputString
 }
 
-fun useRegex(page: String, variables : Map<String, String>): String {
-    val regex = "\\{\\{(.*?)}}".toRegex()  // Capture tout entre {{ et }}
 
-    variables.forEach {
-        page.replace(regex) {
+class MyHandler(val page: String, val variables : Map<String, String>? = null) : HttpHandler {
 
-        }
-    }
-    return regex
-
-}
-
-
-class MyHandler(val page: String) : HttpHandler {
     override fun handle(t: HttpExchange) {
-        val response = readFile(page)
-        t.sendResponseHeaders(200, response.length.toLong())
+        val reponse: String = this.replaceHTML()
+        t.sendResponseHeaders(200, reponse.length.toLong())
         val os = t.responseBody
-        os.write(response.toByteArray())
+        os.write(reponse.toByteArray())
         os.close()
     }
+    fun replaceHTML(): String {
+        var temp = readFile(page)
+        if (this.variables!=null) {
+            variables.forEach { K, V ->
+                temp = temp.replace("{{$K}}", V)
+            }
+        }
+        return temp
+    }
+
 }
 
 
