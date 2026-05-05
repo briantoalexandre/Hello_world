@@ -27,6 +27,14 @@ fun readFile(page: String): String {
 }
 
 fun useRegex(page: String, variables : Map<String, String>): String {
+    val regex = "\\{\\{(.*?)}}".toRegex()  // Capture tout entre {{ et }}
+
+    variables.forEach {
+        page.replace(regex) {
+
+        }
+    }
+    return regex
 
 }
 
