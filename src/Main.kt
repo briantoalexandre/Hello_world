@@ -10,10 +10,12 @@ import java.io.File
 import java.io.InputStream
 
 
-
 fun main() {
     val server = HttpServer.create(InetSocketAddress(8080), 0)
+
+    server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
     server.createContext("/", MyHandler("src/templates/pages/accueil.html"))
+
     //server.executor = null // creates a default executor
     server.start()
 }
