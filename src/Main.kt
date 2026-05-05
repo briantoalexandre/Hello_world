@@ -14,6 +14,8 @@ fun main() {
     val server = HttpServer.create(InetSocketAddress(8080), 0)
 
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
+    server.createContext("/bootstrap.js", MyHandler("src/templates/js/bootstrap.js"))
+    server.createContext("/bootstrap.b.js", MyHandler("src/templates/js/bootstrap.bundle.js"))
     server.createContext("/", MyHandler("src/templates/pages/accueil.html"))
 
     //server.executor = null // creates a default executor
