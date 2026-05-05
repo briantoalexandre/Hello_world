@@ -12,7 +12,6 @@ import java.io.InputStream
 
 fun main() {
     val server = HttpServer.create(InetSocketAddress(8080), 0)
-
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
     server.createContext("/bootstrap.js", MyHandler("src/templates/js/bootstrap.js"))
     server.createContext("/bootstrap.b.js", MyHandler("src/templates/js/bootstrap.bundle.js"))
@@ -27,6 +26,11 @@ fun readFile(page: String): String {
     return inputString
 }
 
+fun useRegex(page: String, variables : Map<String, String>): String {
+
+}
+
+
 class MyHandler(val page: String) : HttpHandler {
     override fun handle(t: HttpExchange) {
         val response = readFile(page)
@@ -36,3 +40,14 @@ class MyHandler(val page: String) : HttpHandler {
         os.close()
     }
 }
+
+
+/*
+fun renderPageWithRegex(template: String, variables: Map<String, String>): String {
+    val regex = "\\{\\{(.*?)}}".toRegex()  // Capture tout entre {{ et }}
+    return regex.replace(template) { matchResult ->
+        val key = matchResult.groupValues[1]
+        variables[key] ?: matchResult.value // si variable non trouvée, on laisse la balise
+    }
+}
+ */
