@@ -11,13 +11,14 @@ import java.net.InetSocketAddress // Adresse IP et port du serveur
 fun main() {
     val server = HttpServer.create(InetSocketAddress(8080), 0)
     server.createContext("/", MyHandler())
-    server.executor = null // creates a default executor
+    server.createContext("/a", MyHandler())
+    //server.executor = null // creates a default executor
     server.start()
 }
 
 class MyHandler : HttpHandler {
     override fun handle(t: HttpExchange) {
-        val response = "Hello World"
+        val response = "<h1>Hello World</h1>"
         t.sendResponseHeaders(200, response.length.toLong())
         val os = t.responseBody
         os.write(response.toByteArray())
