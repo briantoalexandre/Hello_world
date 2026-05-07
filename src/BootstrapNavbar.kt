@@ -17,10 +17,10 @@ class BootstrapNavbar {
           <a class="nav-link active" aria-current="page" href="/">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">A propos</a>
+          <a class="nav-link" href="/about">A propos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="/contact">Contact</a>
         </li>
     </ul>
   </div>
@@ -34,10 +34,10 @@ class BootstrapNavbar {
           <a class="nav-link active" aria-current="page" href="/">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">A propos</a>
+          <a class="nav-link" href="/about">A propos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
+          <a class="nav-link" href="/contact">Contact</a>
         </li>
     </div>
   </div>

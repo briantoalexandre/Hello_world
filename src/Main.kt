@@ -23,6 +23,8 @@ fun main() {
     server.createContext("/s1.js", MyHandler("src/templates/js/scriptDropdown.js"))
     server.createContext("/bootstrap.b.js", MyHandler("src/templates/js/bootstrap.bundle.js"))
     server.createContext("/", MyHandler("src/templates/pages/accueil.html", whole))
+    server.createContext("/about", MyHandler("src/templates/pages/about.html", whole))
+    server.createContext("/contact", MyHandler("src/templates/pages/contact.html", whole))
 
     //server.executor = null // creates a default executor
     server.start()
