@@ -1,5 +1,6 @@
 package io.pivotal
 
+import BootstrapNavbar
 import java.awt.Desktop // Permet d'ouvrir le navigateur par défaut
 import java.net.URI // Représente une adresse web
 import com.sun.net.httpserver.HttpServer // Serveur HTTP
@@ -13,11 +14,13 @@ import java.io.InputStream
 fun main() {
     val header = readFile("src/templates/pages/header.html")
     val footer = readFile("src/templates/pages/footer.html")
-    val whole = mapOf("header" to header, "footer" to footer)
+    val navbar: BootstrapNavbar = BootstrapNavbar()
+    val whole = mapOf("header" to header, "footer" to footer, "navbar" to navbar.render())
 
     val server = HttpServer.create(InetSocketAddress(8080), 0)
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
     server.createContext("/bootstrap.js", MyHandler("src/templates/js/bootstrap.js"))
+    server.createContext("/s1.js", MyHandler("src/templates/js/scriptDropdown.js"))
     server.createContext("/bootstrap.b.js", MyHandler("src/templates/js/bootstrap.bundle.js"))
     server.createContext("/", MyHandler("src/templates/pages/accueil.html", whole))
 
@@ -49,7 +52,6 @@ class MyHandler(val page: String, val variables : Map<String, String>? = null) :
         }
         return temp
     }
-
 }
 
 
