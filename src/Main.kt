@@ -12,15 +12,15 @@ import java.io.InputStream
 
 
 fun main() {
+    val routes = mapOf<String, String>("/" to "accueil", "/about" to "à propos", "/contact" to "contact")
     val header = readFile("src/templates/pages/header.html")
     val footer = readFile("src/templates/pages/footer.html")
-    val navbar: BootstrapNavbar = BootstrapNavbar()
+    val navbar: BootstrapNavbar = BootstrapNavbar(routes)
     val whole = mapOf("header" to header, "footer" to footer, "navbar" to navbar.render())
 
     val server = HttpServer.create(InetSocketAddress(8080), 0)
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
     server.createContext("/bootstrap.js", MyHandler("src/templates/js/bootstrap.js"))
-    server.createContext("/s1.js", MyHandler("src/templates/js/scriptDropdown.js"))
     server.createContext("/bootstrap.b.js", MyHandler("src/templates/js/bootstrap.bundle.js"))
     server.createContext("/", MyHandler("src/templates/pages/accueil.html", whole))
     server.createContext("/about", MyHandler("src/templates/pages/about.html", whole))
@@ -40,6 +40,7 @@ class MyHandler(val page: String, val variables : Map<String, String>? = null) :
 
     override fun handle(t: HttpExchange) {
         val reponse: String = this.replaceHTML()
+        println("$page\n\n$reponse")
         t.sendResponseHeaders(200, reponse.length.toLong())
         val os = t.responseBody
         os.write(reponse.toByteArray())
