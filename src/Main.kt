@@ -1,5 +1,6 @@
 package io.pivotal
 
+import BootstrapFooter
 import BootstrapNavbar
 import java.awt.Desktop // Permet d'ouvrir le navigateur par défaut
 import java.net.URI // Représente une adresse web
@@ -12,11 +13,11 @@ import java.io.InputStream
 
 
 fun main() {
-    val routes = mapOf<String, String>("/" to "accueil", "/about" to "à propos", "/contact" to "contact")
+    val routes = mapOf<String, String>("/" to "Accueil", "/about" to "A propos", "/contact" to "Contact")
     val header = readFile("src/templates/pages/header.html")
-    val footer = readFile("src/templates/pages/footer.html")
+    val footer: BootstrapFooter = BootstrapFooter()
     val navbar: BootstrapNavbar = BootstrapNavbar(routes)
-    val whole = mapOf("header" to header, "footer" to footer, "navbar" to navbar.render())
+    val whole = mapOf("header" to header, "footer" to footer.render(), "navbar" to navbar.render())
 
     val server = HttpServer.create(InetSocketAddress(8080), 0)
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
@@ -39,11 +40,11 @@ fun readFile(page: String): String {
 class MyHandler(val page: String, val variables : Map<String, String>? = null) : HttpHandler {
 
     override fun handle(t: HttpExchange) {
-        val reponse: String = this.replaceHTML()
-        println("$page\n\n$reponse")
-        t.sendResponseHeaders(200, reponse.length.toLong())
+        val response: String = this.replaceHTML()
+        //println("$page\n\n$response\n\n\n\n\n\n\n")
+        t.sendResponseHeaders(200, response.length.toLong())
         val os = t.responseBody
-        os.write(reponse.toByteArray())
+        os.write(response.toByteArray())
         os.close()
     }
     fun replaceHTML(): String {
