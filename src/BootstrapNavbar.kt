@@ -26,7 +26,8 @@ ${dropDown()}
               </ul>
             </div>
           </div>
-        </nav>""".trimIndent()
+        </nav>
+        <main>""".trimIndent()
         return html
     }
 

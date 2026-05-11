@@ -41,7 +41,7 @@ class MyHandler(val page: String, val variables : Map<String, String>? = null) :
 
     override fun handle(t: HttpExchange) {
         val response: String = this.replaceHTML()
-        //println("$page\n\n$response\n\n\n\n\n\n\n")
+        this.printPage(page, response)
         t.sendResponseHeaders(200, response.length.toLong())
         val os = t.responseBody
         os.write(response.toByteArray())
@@ -56,6 +56,13 @@ class MyHandler(val page: String, val variables : Map<String, String>? = null) :
         }
         return temp
     }
+    fun printPage(page: String, text: String) {
+        if (page.contains("accueil")) {
+            println("$page\n\n$text")
+        }
+
+    }
+
 }
 
 
