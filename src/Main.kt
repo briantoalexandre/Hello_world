@@ -1,5 +1,6 @@
 package io.pivotal
 
+import BootstrapCard
 import BootstrapFooter
 import BootstrapNavbar
 import java.awt.Desktop // Permet d'ouvrir le navigateur par défaut
@@ -13,11 +14,12 @@ import java.io.InputStream
 
 
 fun main() {
+    val card1: BootstrapCard = BootstrapCard("test", )
     val routes = mapOf<String, String>("/" to "Accueil", "/about" to "A propos", "/contact" to "Contact")
     val header = readFile("src/templates/pages/header.html")
     val footer: BootstrapFooter = BootstrapFooter()
     val navbar: BootstrapNavbar = BootstrapNavbar(routes)
-    val whole = mapOf("header" to header, "footer" to footer.render(), "navbar" to navbar.render())
+    val whole = mapOf("header" to header, "footer" to footer.render(), "navbar" to navbar.render(), "card1" to card1.render())
 
     val server = HttpServer.create(InetSocketAddress(8080), 0)
     server.createContext("/bootstrap.css", MyHandler("src/templates/css/bootstrap.css"))
@@ -35,7 +37,6 @@ fun readFile(page: String): String {
     val inputString = File(page).readText()
     return inputString
 }
-
 
 class MyHandler(val page: String, val variables : Map<String, String>? = null) : HttpHandler {
 
